@@ -9,18 +9,18 @@
 #
 #*****************************************************************************
 
-# Add your Source files to this variable
+# Source lists
 COMMON_SRC = main.c \
-			 memory.c
+             memory.c
 
 TARGET_SRC = system_msp432p401r.c \
-			 interrupts_msp432p401r_gcc.c \
-			 startup_msp432p401r_gcc.c
+             interrupts_msp432p401r_gcc.c \
+             startup_msp432p401r_gcc.c
 
 
-# Add your include paths to this variable
+# Include lists
 COMMON_INC = -I ../include/common/
 
 TARGET_INC = -I ../include/CMSIS/ \
-			 -I ../include/msp432/ \
-			 -I ../
+             -I ../include/msp432/ \
+             -I ../
