@@ -26,7 +26,7 @@ include sources.mk
 OUT_FILE = c1m2.out
 
 # Platform Override
-PLATFORM = MSP432
+PLATFORM = HOST
 
 # ARM specific details
 LINKER_FILE = msp432p401r.lds
@@ -69,8 +69,8 @@ compile-all: $(OBJS)
 clean: 
 	rm -f $(OBJS) $(OBJS:.o=.d) $(OUT_FILE)
 
-# %.i: #prereqs
-#   #command
+%.i: %.c
+	$(CC) -E $< -o $@
 
 # %.asm: #prereqs
 #   #command
