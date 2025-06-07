@@ -67,8 +67,7 @@ compile-all: $(OBJS)
 
 .PHONY: clean
 clean: 
-	rm -f $(OBJS) $(OUT_FILE)
-
+	rm -f $(OBJS) $(OBJS:.o=.d) $(OUT_FILE)
 
 # %.i: #prereqs
 #   #command
@@ -77,7 +76,10 @@ clean:
 #   #command
 
 
+# === Dependency generation options used ===
+# MMD - Generate dependencies for user headers (skip system headers).
+# MP - Add phony rules for each header, so make doesn’t fail if headers are deleted.
+# MF - Used to specify the output (.d) file.
+# MT - Used to specify the target for the rule (the object file).
 %.o: %.c
-	$(CC) $(ARCH_FLAGS) $(CFLAGS) $(INCLUDES) -D$(PLATFORM) -c $< -o $@
-
-
+	$(CC) $(ARCH_FLAGS) $(CFLAGS) $(INCLUDES) -D$(PLATFORM) -c $< -o $@ -MMD -MP -MF $(@:.o=.d) -MT $@
