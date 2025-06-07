@@ -63,7 +63,7 @@ endif
 .PHONY: build
 build: $(OBJS)
 	$(CC) $(ARCH_FLAGS) $(CFLAGS) $(LDFLAGS) $(INCLUDES) -D$(PLATFORM) -o $(OUT_FILE) $(SRC)
-	size $(OBJS)
+	size -A $(OBJS)
 
 
 .PHONY: compile-all
