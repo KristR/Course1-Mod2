@@ -23,7 +23,8 @@
 #------------------------------------------------------------------------------
 include sources.mk
 
-OUT_FILE = c1m2.out
+OUT_FILE = c1m2.elf
+MAP_FILE = c1m2.map
 
 # Platform Override
 PLATFORM = 
@@ -62,7 +63,7 @@ endif
 
 .PHONY: build
 build: $(OBJS)
-	$(CC) $(ARCH_FLAGS) $(CFLAGS) $(LDFLAGS) $(INCLUDES) -D$(PLATFORM) -o $(OUT_FILE) $(SRC)
+	$(CC) $(ARCH_FLAGS) $(CFLAGS) $(LDFLAGS) $(INCLUDES) -D$(PLATFORM) -o $(OUT_FILE) $(SRC) -Wl,-Map=$(MAP_FILE)
 	size -A $(OBJS)
 
 
@@ -72,7 +73,7 @@ compile-all: $(OBJS)
 
 .PHONY: clean
 clean: 
-	rm -f $(ALL_OBJS) $(ALL_OBJS:.o=.d) $(ALL_OBJS:.o=.i) $(ALL_OBJS:.o=.asm) $(OUT_FILE)
+	rm -f $(ALL_OBJS) $(ALL_OBJS:.o=.d) $(ALL_OBJS:.o=.i) $(ALL_OBJS:.o=.asm) $(OUT_FILE) $(MAP_FILE)
 
 %.i: %.c
 	$(CC) -E $< -o $@
