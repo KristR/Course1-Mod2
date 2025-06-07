@@ -26,7 +26,7 @@ include sources.mk
 OUT_FILE = c1m2.out
 
 # Platform Override
-PLATFORM = HOST
+PLATFORM = 
 
 # ARM specific details
 LINKER_FILE = msp432p401r.lds
@@ -67,14 +67,13 @@ compile-all: $(OBJS)
 
 .PHONY: clean
 clean: 
-	rm -f $(OBJS) $(OBJS:.o=.d) $(OUT_FILE)
+	rm -f $(OBJS) $(OBJS:.o=.d) $(OBJS:.o=.i) $(OBJS:.o=.asm) $(OUT_FILE)
 
 %.i: %.c
 	$(CC) -E $< -o $@
 
-# %.asm: #prereqs
-#   #command
-
+%.asm: %.c
+	$(CC) $(CFLAGS) $(INCLUDES) -D$(PLATFORM) -S $< -o $@
 
 # === Dependency generation options used ===
 # MMD - Generate dependencies for user headers (skip system headers).
