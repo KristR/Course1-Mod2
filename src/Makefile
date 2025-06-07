@@ -37,13 +37,17 @@ SPECS       = nosys.specs
 # Common compiler flags
 CFLAGS = -Wall -Werror -g -O0 -std=c99 
 
+# Separate object list for 'clean' command
+# so that the clean list does not depend on the defined platform
+ALL_OBJS = $(TARGET_SRC:.c=.o) $(COMMON_SRC:.c=.o)
+
 # == Conditional defines ==
 ifeq ($(PLATFORM), HOST)
 	# HOST
-	CC        = gcc
-	SRC      := $(COMMON_SRC)
-	OBJS     := $(COMMON_SRC:.c=.o)
-	INCLUDES := $(COMMON_INC)
+	CC       = gcc
+	SRC      = $(COMMON_SRC)
+	OBJS     = $(COMMON_SRC:.c=.o)
+	INCLUDES = $(COMMON_INC)
 else
 	# ARM
 	CC         = arm-none-eabi-gcc
@@ -59,6 +63,7 @@ endif
 .PHONY: build
 build: $(OBJS)
 	$(CC) $(ARCH_FLAGS) $(CFLAGS) $(LDFLAGS) $(INCLUDES) -D$(PLATFORM) -o $(OUT_FILE) $(SRC)
+	size $(OBJS)
 
 
 .PHONY: compile-all
@@ -67,7 +72,7 @@ compile-all: $(OBJS)
 
 .PHONY: clean
 clean: 
-	rm -f $(OBJS) $(OBJS:.o=.d) $(OBJS:.o=.i) $(OBJS:.o=.asm) $(OUT_FILE)
+	rm -f $(ALL_OBJS) $(ALL_OBJS:.o=.d) $(ALL_OBJS:.o=.i) $(ALL_OBJS:.o=.asm) $(OUT_FILE)
 
 %.i: %.c
 	$(CC) -E $< -o $@
